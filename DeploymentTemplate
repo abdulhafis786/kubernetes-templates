@@ -1,0 +1,21 @@
+apiVersion: apps/v1      # api version that is used
+kind: Deployment         # Type of object that the K8 creates
+metadata:
+  name: nginx-deployment # name of the deployment created
+  labels:
+    app: nginx          # This is given as a reference to connect one object with another. eg: A service to connect to a deployment
+spec:
+  replicas: 3           # No of containers to be created
+  selector:
+    matchLabels:        # This is given cos when the Deployment creates a Pod, it needs a selector to handle to pod.
+      app: nginx        # Reference to the Pod used by selector to manage
+  template:             # This is the configuration defined for creating a pod with the Deployment
+    metadata:
+      labels:
+        app: nginx     # Same reference as that of selector. The label given in selector must match the pod label as well
+    spec:
+      containers:      # Container specification for the pod
+      - name: nginx
+        image: nginx:1.7.9
+        ports:
+        - containerPort: 80
